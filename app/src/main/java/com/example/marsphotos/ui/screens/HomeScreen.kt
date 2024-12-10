@@ -44,22 +44,22 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.marsphotos.R
-import com.example.marsphotos.model.MarsPhoto
+import com.example.marsphotos.model.FlickrPhoto
 import com.example.marsphotos.ui.theme.MarsPhotosTheme
 
 @Composable
 fun HomeScreen(
-    marsUiState: MarsUiState,
+    marsUiState: FlickrUiState,
     retryAction: () -> Unit,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(0.dp),
 ) {
     when (marsUiState) {
-        is MarsUiState.Loading -> LoadingScreen(modifier = modifier.fillMaxSize())
-        is MarsUiState.Success -> PhotosGridScreen(
-            marsUiState.photos, contentPadding = contentPadding, modifier = modifier.fillMaxWidth()
+        is FlickrUiState.Loading -> LoadingScreen(modifier = modifier.fillMaxSize())
+        is FlickrUiState.Success -> PhotosGridScreen(
+            flickrUiState.photos, contentPadding = contentPadding, modifier = modifier.fillMaxWidth()
         )
-        is MarsUiState.Error -> ErrorScreen(retryAction, modifier = modifier.fillMaxSize())
+        is FlickrUiState.Error -> ErrorScreen(retryAction, modifier = modifier.fillMaxSize())
     }
 }
 
@@ -100,7 +100,7 @@ fun ErrorScreen(retryAction: () -> Unit, modifier: Modifier = Modifier) {
  */
 @Composable
 fun PhotosGridScreen(
-    photos: List<MarsPhoto>,
+    photos: List<FlickrPhoto>,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(0.dp),
 ) {
@@ -122,14 +122,14 @@ fun PhotosGridScreen(
 }
 
 @Composable
-fun MarsPhotoCard(photo: MarsPhoto, modifier: Modifier = Modifier) {
+fun MarsPhotoCard(photo: FlickrPhoto, modifier: Modifier = Modifier) {
     Card(
         modifier = modifier,
         shape = MaterialTheme.shapes.medium,
         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
     ) {
         AsyncImage(
-            model = ImageRequest.Builder(context = LocalContext.current).data(photo.imgSrc)
+            model = ImageRequest.Builder(context = LocalContext.current).data(photo.imageUrl)
                 .crossfade(true).build(),
             error = painterResource(R.drawable.ic_broken_image),
             placeholder = painterResource(R.drawable.loading_img),
@@ -160,7 +160,7 @@ fun ErrorScreenPreview() {
 @Composable
 fun PhotosGridScreenPreview() {
     MarsPhotosTheme {
-        val mockData = List(10) { MarsPhoto("$it", "") }
+        val mockData = List(10) { FlickrPhoto("$it", "") }
         PhotosGridScreen(mockData)
     }
 }

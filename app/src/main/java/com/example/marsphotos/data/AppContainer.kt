@@ -15,7 +15,7 @@
  */
 package com.example.marsphotos.data
 
-import com.example.marsphotos.network.FlickrApiService
+import com.example.marsphotos.network.FlickrAPIService
 import retrofit2.Retrofit
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
@@ -34,8 +34,8 @@ class DefaultAppContainer : AppContainer {
         .baseUrl(baseUrl)
         .build()
 
-    private val retrofitService: FlickrApiService by lazy {
-        retrofit.create(FlickrApiService::class.java)
+    private val retrofitService: FlickrAPIService by lazy {
+        retrofit.create(FlickrAPIService::class.java)
     }
 
     override val flickrPhotosRepository: FlickrPhotosRepository by lazy {

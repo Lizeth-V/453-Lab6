@@ -1,18 +1,20 @@
 package com.example.marsphotos.model
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@kotlinx.serialization.Serializable
+@Serializable
 data class FlickrResponse(
     val photos: Photos
 )
 
-@kotlinx.serialization.Serializable
+@Serializable
 data class Photos(
     val photo: List<FlickrPhoto>
 )
 
-@kotlinx.serialization.Serializable
+@Serializable
 data class FlickrPhoto(
     val id: String,
     val title: String,
-    val url_s: String
+    @SerialName("url_s") val imageUrl: String
 )
